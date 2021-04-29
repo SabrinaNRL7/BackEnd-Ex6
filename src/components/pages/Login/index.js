@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import firebase from '../../../config/Firebase';
+import { useHistory } from 'react-router-dom';
 
 const Login = ({title, angka}) => { 
     const [welcomeText, setWelcomeText] = useState("Welcome!!!");
     const [email, setEmail] = useState ("");
     const [password, setPassword] = useState("");
+
+    let history = useHistory();
     
     useEffect(() => {
         console.log("component did mount");
@@ -19,7 +23,11 @@ const Login = ({title, angka}) => {
             email: email,
             password: password,
         };
-        console.log(data);
+        // console.log(data);
+        firebase.auth()
+        .signInWithEmailAndPassword(email,password)
+        .then((res) => history.push("/"))
+        .catch((error) => console.log("Error", error));
     };
 
 
